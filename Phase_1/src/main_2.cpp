@@ -3,83 +3,88 @@
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 
-// Input: water level, battery voltage
-// Output: water level, battery voltage, notification, call
-
-// Flag when water level changes
+// Send notification 3 times when tank is full with 8 second gap
 
 BlynkTimer timer;
 char auth[] = "6ced08cd273148a4a81162544bcc3b26"; //Auth code sent via Email
 char ssid[] = "Hacked";                           //Wifi name
 char pass[] = "0123456789";                       //Wifi Password
 bool Level_100, Level_75, Level_50, Level_25, Level_0;
-char flag;
+int state = 0;
+int flag = 0;
+int notification = 0;
 
-void water_level_check()
+void level_check()
 {
+  if (digitalRead(D1) == HIGH)
+  {
+    state = 100;
+  }
 
-    Level_100 = digitalRead(D1);
-    Level_75 = digitalRead(D2);
-    Level_50 = digitalRead(D5);
-    Level_25 = digitalRead(D6);
-    Level_0 = digitalRead(D7);
-
-    if (Level_100)
+  else
+  {
+    if (digitalRead(D2) == HIGH)
     {
-        flag = L_100;
-        break;
+      state = 75;
+      flag = 1;
     }
+
     else
     {
-        flag = L_75;
-    }
+      if (digitalRead(D5) == HIGH)
+      {
+        state = 50;
+      }
 
-    else if (Level_100)
-    {
-        flag = f;
-        break;
+      else
+      {
+        if (digitalRead(D6) == HIGH)
+        {
+          state = 25;
+        }
+
+        else
+        {
+          state = 0;
+        }
+      }
     }
-    else if (Level_100)
-    {
-        flag = f;
-        break;
-    }
-    if (Level_100)
-    {
-        flag = f;
-        break;
-    }
-    if (Level_100)
-    {
-        flag = f;
-        break;
-    }
+  }
 }
 
 void notify()
 {
-}
+  if ((state == 100) && (flag == 1) && (notification < 3))
+  {
 
-void battery_level_check()
-{
-    // Check battery voltage every 5 minute
+    Blynk.notify("Tank is full\n Switch off motor IMMEDIATELY");
+    notification++;
+  }
+  flag = 0;
+  else if (Level_25 == HIGH)
+  {
+    Blynk.notify("Water Level is LOW\n Switch on motor");
+  }
+  else if (Level_0 == HIGH)
+  {
+    Blynk.notify("Tank is empty\n Switch on motor IMMEDIATELY");
+  }
 }
 
 void setup()
 {
-    Serial.begin(9600);
-    Blynk.begin(auth, ssid, pass);
-    pinMode(D1, INPUT);
-    pinMode(D2, INPUT);
-    pinMode(D5, INPUT);
-    pinMode(D6, INPUT);
-    pinMode(D7, INPUT);
+  Serial.begin(9600);
+  Blynk.begin(auth, ssid, pass);
+  pinMode(D1, INPUT);
+  pinMode(D2, INPUT);
+  pinMode(D5, INPUT);
+  pinMode(D6, INPUT);
+  pinMode(D7, INPUT);
 }
 
 void loop()
 {
-    Blynk.run();
-    water_level_check();
-    notify();
-    battery_level_check();
+  Blynk.run();
+  level_check();
+  notify();
 }
