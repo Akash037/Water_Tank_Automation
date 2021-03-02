@@ -7,7 +7,6 @@ BlynkTimer timer;
 char auth[] = "6ced08cd273148a4a81162544bcc3b26"; //Auth code sent via Email
 char ssid[] = "Hacked"; //Wifi name
 char pass[] = "0123456789";  //Wifi Password
-int flag=0;
 bool full;
 bool high;
 bool half;
