@@ -3,27 +3,66 @@
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 
+// Input: water level, battery voltage
+// Output: water level, battery voltage, notification, call
+
+// Flag when water level changes
+
 BlynkTimer timer;
 char auth[] = "6ced08cd273148a4a81162544bcc3b26"; //Auth code sent via Email
 char ssid[] = "Hacked";                           //Wifi name
 char pass[] = "0123456789";                       //Wifi Password
-bool full;
-bool high;
-bool half;
-bool low;
-bool empty;
+bool Level_100, Level_75, Level_50, Level_25, Level_0;
+char flag;
 
-void level_check()
+void water_level_check()
 {
-    full = digitalRead(D1);
-    high = digitalRead(D2);
-    half = digitalRead(D5);
-    low = digitalRead(D6);
-    empty = digitalRead(D7);
+
+    Level_100 = digitalRead(D1);
+    Level_75 = digitalRead(D2);
+    Level_50 = digitalRead(D5);
+    Level_25 = digitalRead(D6);
+    Level_0 = digitalRead(D7);
+
+    if (Level_100)
+    {
+        flag = L_100;
+        break;
+    }
+    else
+    {
+        flag = L_75;
+    }
+
+    else if (Level_100)
+    {
+        flag = f;
+        break;
+    }
+    else if (Level_100)
+    {
+        flag = f;
+        break;
+    }
+    if (Level_100)
+    {
+        flag = f;
+        break;
+    }
+    if (Level_100)
+    {
+        flag = f;
+        break;
+    }
 }
 
 void notify()
 {
+}
+
+void battery_level_check()
+{
+    // Check battery voltage every 5 minute
 }
 
 void setup()
@@ -40,6 +79,7 @@ void setup()
 void loop()
 {
     Blynk.run();
-    level_check();
+    water_level_check();
     notify();
+    battery_level_check();
 }
