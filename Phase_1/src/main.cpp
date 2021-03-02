@@ -28,18 +28,22 @@ void notify()
   if (full == HIGH)
   {
     Blynk.notify("Tank is full\n Switch off motor IMMEDIATELY");
+    break;
   }
   else if (high == HIGH)
   {
     Blynk.notify("Tank is about to be full\n Switch off motor");
+    break;
   }
   else if (half == HIGH)
   {
     Blynk.notify("Tank is half filled");
+    break;
   }
   else if (low == HIGH)
   {
     Blynk.notify("Water Level is LOW\n Switch on motor");
+    break;
   }
   else //if (empty == HIGH)                                           ye dekhna kuch add karni ho toh condition
   {
