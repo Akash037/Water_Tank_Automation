@@ -12,7 +12,6 @@ char pass[] = "0123456789";                       //Wifi Password
 bool Level_100, Level_75, Level_50, Level_25, Level_0;
 int state = 0;
 int flag = 0;
-int notification = 0;
 
 void tank_full()
 {
@@ -55,6 +54,7 @@ void level_check()
         if (digitalRead(D6) == HIGH)
         {
           state = 25;
+          Blynk.notify("Tank is full\n Switch off motor IMMEDIATELY");
         }
 
         else
@@ -66,32 +66,6 @@ void level_check()
   }
 }
 
-void notify()
-
-{
-  if ((state == 100) && (flag == 1))
-  {
-
-    Blynk.notify("Tank is full\n Switch off motor IMMEDIATELY");
-    notification++;
-  }
-
-  flag = 0;
-
-  if (Level_25 == HIGH)
-  {
-    Blynk.notify("Water Level is LOW\n Switch on motor");
-  }
-
-  if (Level_0 == HIGH)
-  {
-    Blynk.notify("Tank is empty\n Switch on motor IMMEDIATELY");
-  }
-}
-<<<<<<< HEAD
-=======
-
->>>>>>> 57d76d2c697f6e19ecc9e7e76393ae112b181e4c
 void setup()
 {
   Serial.begin(9600);
@@ -107,5 +81,4 @@ void loop()
 {
   Blynk.run();
   level_check();
-  notify();
 }
