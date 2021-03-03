@@ -12,8 +12,7 @@ char pass[] = "0123456789";                       //Wifi Password
 bool Level_100, Level_75, Level_50, Level_25, Level_0;
 char flag
 
-    void
-    level_check()
+void level_check()
 {
   full = digitalRead(D1);
   high = digitalRead(D2);

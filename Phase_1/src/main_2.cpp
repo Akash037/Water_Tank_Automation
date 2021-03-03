@@ -61,7 +61,7 @@ void notify()
     notification++;
   }
   flag = 0;
-  else if (Level_25 == HIGH)
+  if (Level_25 == HIGH)
   {
     Blynk.notify("Water Level is LOW\n Switch on motor");
   }
