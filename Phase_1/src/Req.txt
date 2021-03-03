@@ -2,3 +2,10 @@ Send notification 3 times in a row with 8 second gap when tank is full
 send notification 1 time when tank is at 25 and 0 percent
 check battery voltage at 5 min gap
 send battery and water level to the app
+
+
+increase code efficiency
+battery level check functionality
+add OTA functionality
+water inlet check functionality
+call notification
