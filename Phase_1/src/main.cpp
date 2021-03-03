@@ -88,6 +88,10 @@ void notify()
     Blynk.notify("Tank is empty\n Switch on motor IMMEDIATELY");
   }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 57d76d2c697f6e19ecc9e7e76393ae112b181e4c
 void setup()
 {
   Serial.begin(9600);
