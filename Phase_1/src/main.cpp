@@ -10,38 +10,74 @@ char auth[] = "6ced08cd273148a4a81162544bcc3b26"; //Auth code sent via Email
 char ssid[] = "Hacked";                           //Wifi name
 char pass[] = "0123456789";                       //Wifi Password
 bool Level_100, Level_75, Level_50, Level_25, Level_0;
-char flag
+int state = 0;
+int flag = 0;
+int notification = 0;
 
 void level_check()
 {
-  full = digitalRead(D1);
-  high = digitalRead(D2);
-  half = digitalRead(D5);
-  low = digitalRead(D6);
-  empty = digitalRead(D7);
+  if (digitalRead(D1) == HIGH)
+  {
+    state = 100;
+  }
+
+  else
+  {
+    if (digitalRead(D2) == HIGH)
+    {
+      state = 75;
+      flag = 1;
+    }
+
+    else
+    {
+      if (digitalRead(D5) == HIGH)
+      {
+        state = 50;
+      }
+
+      else
+      {
+        if (digitalRead(D6) == HIGH)
+        {
+          state = 25;
+        }
+
+        else
+        {
+          state = 0;
+        }
+      }
+    }
+  }
 }
 
 void notify()
 {
-  if ((Level_100 == HIGH) && (notification < 3))
+  if ((state == 100) && (flag == 1))
   {
 
     Blynk.notify("Tank is full\n Switch off motor IMMEDIATELY");
     notification++;
-    break;
   }
-  else if (Level_25 == HIGH)
+
+  flag = 0;
+
+  if (Level_25 == HIGH)
   {
     Blynk.notify("Water Level is LOW\n Switch on motor");
-    break;
   }
-  else if (Level_0 == HIGH)
+
+  if (Level_0 == HIGH)
   {
     Blynk.notify("Tank is empty\n Switch on motor IMMEDIATELY");
   }
 }
 
-void setup()
+void
+
+    void
+    setup()
 {
   Serial.begin(9600);
   Blynk.begin(auth, ssid, pass);
