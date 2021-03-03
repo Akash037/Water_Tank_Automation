@@ -14,11 +14,25 @@ int state = 0;
 int flag = 0;
 int notification = 0;
 
+void tank_full()
+{
+  if ((state == 100) && (flag == 1))
+  {
+    for (int i = 0; i < 3; i++)
+    {
+      Blynk.notify("Tank is full\n Switch off motor IMMEDIATELY");
+      delay(8000);
+    }
+    flag = 0;
+  }
+}
+
 void level_check()
 {
   if (digitalRead(D1) == HIGH)
   {
     state = 100;
+    tank_full();
   }
 
   else
@@ -53,6 +67,7 @@ void level_check()
 }
 
 void notify()
+
 {
   if ((state == 100) && (flag == 1))
   {
@@ -73,11 +88,7 @@ void notify()
     Blynk.notify("Tank is empty\n Switch on motor IMMEDIATELY");
   }
 }
-
-void
-
-    void
-    setup()
+void setup()
 {
   Serial.begin(9600);
   Blynk.begin(auth, ssid, pass);
